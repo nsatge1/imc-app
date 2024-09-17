@@ -32,7 +32,7 @@ const Person = mongoose.model('Person', PersonSchema);
 // Middleware pour gérer les erreurs
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).send('Something broke!');
+    res.status(500).send('Erreur!');
 });
 
 // Route pour calculer et enregistrer l'IMC
@@ -61,12 +61,25 @@ app.get('/fetch', async (req, res) => {
     }
 });
 
+// Route pour obtenir une personne par son nom
+app.get('/fetch/:nom', async (req, res) => {
+    try {
+        const person = await Person.findOne({ nom: req.params.nom });
+        if (!person) {
+            return res.status(404).send('Personne non trouvée');
+        }
+        res.json(person);
+    } catch (error) {
+        res.status(500).send('Erreur lors de la récupération des données');
+    }
+});
+
 // Route par défaut
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
-// Démarrer le serveur
+// Démarrer le serveur sur le port 3001
 app.listen(3001, () => {
     console.log('Server running on port 3001');
 });

@@ -1,62 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
+import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
+import CalculateIMC from './CalculateIMC';
+import FetchPersonIMC from './FetchPersonIMC';
+import FetchAllPeople from './FetchAllPeople';
+import './App.css'; // Assure-toi que le chemin est correct
 
 function App() {
-    const [nom, setNom] = useState('');
-    const [poids, setPoids] = useState('');
-    const [taille, setTaille] = useState('');
-    const [imc, setImc] = useState(null);
-    const [historique, setHistorique] = useState([]);
-
-    const handleSubmit = async () => {
-        try {
-            const response = await axios.post('http://localhost:3001/calculate', { nom, poids, taille });
-            setImc(response.data.imc);
-            fetchHistorique();
-        } catch (error) {
-            console.error('Erreur lors de la soumission:', error);
-        }
-    };
-    
-    const fetchHistorique = async () => {
-        try {
-            const response = await axios.get('http://localhost:3001/fetch');
-            setHistorique(response.data);
-        } catch (error) {
-            console.error('Erreur lors de la récupération des données:', error);
-        }
-    };
-
-    useEffect(() => {
-        fetchHistorique();
-    }, []);
-
     return (
-        <div className="App">
-            <h1>Calculateur IMC</h1>
-            <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
-                <label>
-                    Nom:
-                    <input type="text" value={nom} onChange={(e) => setNom(e.target.value)} />
-                </label>
-                <label>
-                    Poids (kg):
-                    <input type="number" value={poids} onChange={(e) => setPoids(e.target.value)} />
-                </label>
-                <label>
-                    Taille (m):
-                    <input type="number" value={taille} onChange={(e) => setTaille(e.target.value)} />
-                </label>
-                <button type="submit">Calculer IMC</button>
-            </form>
-            {imc !== null && <p>IMC: {imc}</p>}
-            <h2>Historique des IMC</h2>
-            <ul>
-                {historique.map(entry => (
-                    <li key={entry.id}>{entry.nom}: {entry.imc}</li>
-                ))}
-            </ul>
-        </div>
+        <Router>
+            <div className="App">
+                <h1>Calculateur IMC</h1>
+                <nav>
+                    <Link to="/">Calculer IMC</Link> | 
+                    <Link to="/fetch-person">IMC d'une personne</Link> | 
+                    <Link to="/fetch-all">Voir toutes les personnes</Link>
+                </nav>
+                <Routes>
+                    <Route path="/" element={<CalculateIMC />} />
+                    <Route path="/fetch-person" element={<FetchPersonIMC />} />
+                    <Route path="/fetch-all" element={<FetchAllPeople />} />
+                </Routes>
+            </div>
+        </Router>
     );
 }
 
