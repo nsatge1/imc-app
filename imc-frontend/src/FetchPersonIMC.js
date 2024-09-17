@@ -10,7 +10,7 @@ function FetchPersonIMC() {
 
     const handleSearch = async () => {
         try {
-            const response = await axios.get(`http://localhost:3001/fetch/${nom}`);
+            const response = await axios.get(`https://imc-backend.onrender.com/fetch/${nom}`);
             const personData = response.data;
             setPerson(personData);
 

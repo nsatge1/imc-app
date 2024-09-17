@@ -11,7 +11,7 @@ function CalculateIMC() {
 
     const handleSubmit = async () => {
         try {
-            const response = await axios.post('http://localhost:3001/calculate', { nom, poids, taille });
+            const response = await axios.post('https://imc-backend.onrender.com/calculate', { nom, poids, taille });
             const imcValue = response.data.imc;
             setImc(imcValue);
 
@@ -41,9 +41,11 @@ function CalculateIMC() {
                 <button type="submit">Calculer IMC</button>
             </form>
             {imc !== null && (
+                <div style={{ textAlign: 'center' }}>
                 <p style={{ color: couleur }}>
                     IMC: {imc} - {categorie}
                 </p>
+            </div>
             )}
         </div>
     );
