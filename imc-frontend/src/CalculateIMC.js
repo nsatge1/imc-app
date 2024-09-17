@@ -35,7 +35,7 @@ function CalculateIMC() {
                     <input type="number" value={poids} onChange={(e) => setPoids(e.target.value)} />
                 </label>
                 <label>
-                    Taille (m):
+                    Taille (cm):
                     <input type="number" value={taille} onChange={(e) => setTaille(e.target.value)} />
                 </label>
                 <button type="submit">Calculer IMC</button>

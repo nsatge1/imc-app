@@ -39,7 +39,7 @@ app.use((err, req, res, next) => {
 app.post('/calculate', async (req, res) => {
     try {
         const { nom, poids, taille } = req.body;
-        const imc = poids / (taille ** 2);
+        const imc = poids / ((taille/100) ** 2);
 
         // Enregistrer dans la base de données
         const person = new Person({ nom, poids, taille, imc });
